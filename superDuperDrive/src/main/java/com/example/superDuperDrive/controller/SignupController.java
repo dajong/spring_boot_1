@@ -1,7 +1,7 @@
 package com.example.superDuperDrive.controller;
 
 import com.example.superDuperDrive.model.User;
-import com.example.superDuperDrive.services.UserService;
+import com.example.superDuperDrive.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +26,8 @@ public class SignupController {
   public String signupUser(@ModelAttribute User user, Model model){
     String signupError = null;
 
-    if (!userService.isEmailAvailable(user.getEmail())) {
-      signupError = "Email has been taken!";
+    if (!userService.isUsernameAvailable(user.getUsername())) {
+      signupError = "Username has been taken!";
     }
 
     if(signupError == null){
