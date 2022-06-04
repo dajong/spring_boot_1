@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Note {
-  private int noteId;
+  private Integer noteId;
   private String noteTitle;
   private String noteDescription;
   private int userId;
