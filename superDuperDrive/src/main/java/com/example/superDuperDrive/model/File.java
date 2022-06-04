@@ -1,23 +1,35 @@
 package com.example.superDuperDrive.model;
 
-import java.lang.reflect.Field;
-import java.sql.Blob;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
 public class File {
-  private int fileId;
+
+  public File(
+      Integer fileId,
+      String fileName,
+      String contentType,
+      String fileSize,
+      Integer userId,
+      byte[] fileData) {
+    this.fileId = fileId;
+    this.fileName = fileName;
+    this.contentType = contentType;
+    this.fileSize = fileSize;
+    this.userId = userId;
+    this.fileData = fileData;
+  }
+
+  private Integer fileId;
   private String fileName;
   private String contentType;
   private String fileSize;
-  private int userId;
-  private Blob fileData;
+  private Integer userId;
+  private byte[] fileData;
 }

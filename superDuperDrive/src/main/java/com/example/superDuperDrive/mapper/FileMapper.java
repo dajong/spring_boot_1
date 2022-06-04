@@ -10,14 +10,17 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface FileMapper {
-  @Select("SELECT * FROM FILES")
-  List<File> getAllFiles();
+  @Select("SELECT * FROM FILES WHERE userId = #{userId}")
+  List<File> getAllFiles(Integer userId);
+
+  @Select("SELECT * FROM FILES WHERE filename = #{fileName} AND userId = #{userId}")
+  File getFile(String fileName, Integer userId);
 
   @Insert(
-      "INSERT INTO FILES (fileName, contentType, fileSize, userId, fileData) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
+      "INSERT INTO FILES (filename, contenttype, filesize, userId, filedata) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
   @Options(useGeneratedKeys = true, keyProperty = "fileId")
   int uploadFile(File file);
 
   @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
-  int removeFile(String filename);
+  boolean removeFile(int fileId);
 }
