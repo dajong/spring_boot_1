@@ -1,7 +1,6 @@
 package com.example.superDuperDrive.config;
 
-import com.example.superDuperDrive.services.AuthenticationService;
-import lombok.AllArgsConstructor;
+import com.example.superDuperDrive.service.AuthenticationService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,10 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private AuthenticationService authenticationService;
+
+  public SecurityConfig(AuthenticationService authenticationService) {
+    this.authenticationService = authenticationService;
+  }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth){
@@ -28,9 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.formLogin()
         .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
         .permitAll();
 
     http.formLogin()
         .defaultSuccessUrl("/home", true);
+
+
   }
 }
