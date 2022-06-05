@@ -1,9 +1,12 @@
 package com.example.superDuperDrive.controller;
 
 import com.example.superDuperDrive.config.Messages;
+import com.example.superDuperDrive.model.Credential;
 import com.example.superDuperDrive.model.File;
 import com.example.superDuperDrive.model.Note;
 import com.example.superDuperDrive.model.User;
+import com.example.superDuperDrive.service.CredentialService;
+import com.example.superDuperDrive.service.EncryptionService;
 import com.example.superDuperDrive.service.FileService;
 import com.example.superDuperDrive.service.NoteService;
 import com.example.superDuperDrive.service.UserService;
@@ -27,20 +30,34 @@ public class HomeController {
   private FileService fileService;
   private UserService userService;
   private NoteService noteService;
+  private CredentialService credentialService;
+  private EncryptionService encryptionService;
 
-  public HomeController(FileService fileService, UserService userService, NoteService noteService) {
+  public HomeController(
+      FileService fileService,
+      UserService userService,
+      NoteService noteService,
+      CredentialService credentialService,
+      EncryptionService encryptionService) {
     this.fileService = fileService;
     this.userService = userService;
     this.noteService = noteService;
+    this.credentialService = credentialService;
+    this.encryptionService = encryptionService;
   }
 
   @GetMapping
   public String getHomePage(
-      @ModelAttribute("newNote") Note newNote, Authentication authentication, Model model) {
+      @ModelAttribute("newNote") Note newNote,
+      @ModelAttribute("credent") Credential credent,
+      Authentication authentication,
+      Model model) {
     User user = userService.getUser(authentication.getName());
 
     model.addAttribute("allFiles", this.fileService.getAllFiles(user.getUserId()));
     model.addAttribute("allUserNotes", this.noteService.getAllNotes(user.getUserId()));
+    model.addAttribute("credentials", this.credentialService.getAllCredentials(user.getUserId()));
+    model.addAttribute("encryptionService", encryptionService);
     return "home";
   }
 
