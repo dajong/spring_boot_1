@@ -12,12 +12,12 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface CredentialMapper {
   @Insert(
-      "INSERT INTO CREDENTIALS(userId, url, password, key, user) VALUES(#{userId}, #{url}, #{password}, #{key}, #{user})")
+      "INSERT INTO CREDENTIALS(username, url, passwordKey, password, userId) VALUES(#{username}, #{url}, #{passwordKey}, #{password}, #{userId})")
   @Options(useGeneratedKeys = true, keyProperty = "credentialId")
   int addCredential(Credential credential);
 
   @Select("SELECT * FROM CREDENTIALS WHERE credentialId = #{credentialId}")
-  Credential getCredentialbyId(Integer credentialId);
+  Credential getCredentialById(Integer credentialId);
 
   @Select("SELECT * FROM CREDENTIALS WHERE userId = #{userId}")
   ArrayList<Credential> getAllCredentials(Integer userId);
@@ -26,6 +26,6 @@ public interface CredentialMapper {
   int deleteCredential(Integer credentialId);
 
   @Update(
-      "UPDATE CREDENTIALS SET url = #{url}, password = #{password}, key = #{key}, user = #{user} WHERE credentialId = #{credentialId}")
-  int updateCredential(Credential credentialModel);
+      "UPDATE CREDENTIALS SET username = #{username}, url = #{url}, password = #{password}, passwordKey = #{passwordKey}, userId = #{userId} WHERE credentialId = #{credentialId}")
+  int updateCredential(Credential credential);
 }

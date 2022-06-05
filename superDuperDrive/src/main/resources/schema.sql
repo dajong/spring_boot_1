@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS FILES
 );
 
 
--- CREATE TABLE IF NOT EXISTS CREDENTIALS
--- (
---     credentialId INT PRIMARY KEY auto_increment,
---     url          VARCHAR(100),
---     username     VARCHAR(30),
---     key          VARCHAR,
---     password     VARCHAR,
---     userId       INT,
---     foreign key (userId) references USERS (userId)
--- );
+CREATE TABLE IF NOT EXISTS CREDENTIALS
+(
+    credentialId INT PRIMARY KEY auto_increment,
+    url          VARCHAR(100),
+    username     VARCHAR(30),
+    passwordKey  VARCHAR,
+    password     VARCHAR,
+    userId       INT,
+    foreign key (userId) references USERS (userId)
+);
