@@ -7,21 +7,26 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface NoteMapper {
 
   @Select("SELECT * from NOTES WHERE userId = #{userId}")
-  ArrayList<Note> findUserNote(String noteTitle, int userId);
+  ArrayList<Note> getUserNote(Integer userId);
 
-  @Select("SELECT * from NOTES WHERE ntoetitle = #{noteTitle} AND userId = #{userId}")
-  Note findNote(String noteTitle, int userId);
+  @Select("SELECT * from NOTES WHERE noteId = #{noteId} AND userId = #{userId}")
+  Note getNoteById(Integer noteId, Integer userId);
 
   @Delete("DELETE FROM NOTES WHERE noteId = #{noteId}")
-  int deleteNote(int noteId);
+  Integer deleteNote(Integer noteId);
 
   @Insert(
       "INSERT INTO NOTES (notetitle, notedescription, userId) VALUES(#{noteTitle}, #{noteDescription}, #{userId} )")
   @Options(useGeneratedKeys = true, keyProperty = "noteId")
-  int addNote(Note note);
+  Integer addNote(Note note);
+
+  @Update(
+      "UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription} WHERE noteId = #{noteId}")
+  int updateNote(Note note);
 }

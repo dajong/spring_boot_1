@@ -4,7 +4,6 @@ import com.example.superDuperDrive.mapper.FileMapper;
 import com.example.superDuperDrive.model.File;
 import java.io.IOException;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,11 +13,6 @@ public class FileService {
 
   public FileService(final FileMapper fileMapper) {
     this.fileMapper = fileMapper;
-  }
-
-  @PostConstruct
-  public void postConstruct() {
-    System.out.println("Creating FileService bean");
   }
 
   public void uploadFile(final MultipartFile file, final Integer userId) throws IOException {
