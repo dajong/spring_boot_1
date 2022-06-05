@@ -12,9 +12,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Credential {
-  private String credentialId;
+  private Integer credentialId;
   private String url;
   private String username;
   private String password;
-  private int userId;
+  private Integer userId;
 }

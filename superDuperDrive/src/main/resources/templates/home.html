@@ -84,13 +84,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+
+            <tr th:unless="${allUserNotes.isEmpty()}" th:each="note:${allUserNotes}">
+              <h4 th:if="${allUserNotes.isEmpty()}">No files found for this user!</h4>
               <td>
-                <button type="button" class="btn btn-success">Edit</button>
-                <a class="btn btn-danger">Delete</a>
+                <button id="editnote-button"
+                        th:onclick="javascript:showNoteModal(
+                                                    [[${note.noteId}]],
+                                                    [[${note.noteTitle}]],
+                                                    [[${note.noteDescription}]])"
+                        type="button" class="btn btn-success">
+                  Edit
+                </button>
+                <a class="btn btn-danger" th:href="@{'/notes/delete/' + ${note.noteId}}">Delete</a>
               </td>
-              <th scope="row">Example Note Title</th>
-              <td>Example Note Description</td>
+              <th th:text="${note.noteTitle}" scope="row">Example Note Title</th>
+              <td th:text="${note.noteDescription}">Example Note Description</td>
             </tr>
             </tbody>
           </table>
@@ -106,17 +115,21 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+
               <div class="modal-body">
-                <form action="#" method="POST">
+                <form th:object="${newNote}" th:action="@{/notes/addnote}" action="#" method="POST">
                   <input type="hidden" name="noteId" id="note-id">
                   <div class="form-group">
                     <label for="note-title" class="col-form-label">Title</label>
-                    <input type="text" name="noteTitle" class="form-control" id="note-title"
+                    <input th:field="*{noteTitle}" type="text" name="noteTitle" class="form-control"
+                           id="note-title"
                            maxlength="20" required>
                   </div>
                   <div class="form-group">
                     <label for="note-description" class="col-form-label">Description</label>
-                    <textarea class="form-control" name="noteDescription" id="note-description"
+                    <textarea th:field="*{noteDescription}" class="form-control"
+                              name="noteDescription"
+                              id="note-description"
                               rows="5" maxlength="1000" required></textarea>
                   </div>
                   <button id="noteSubmit" type="submit" class="d-none"></button>
@@ -214,16 +227,8 @@
 
 <!--For opening the note modal-->
 <script type="text/javascript">
-  // Piece of code from knowledge to stay in the same tab after uploading stuffs
-  $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-    localStorage.setItem("activeTab", $(e.target).attr("href"));
-  });
-  var activeTab = localStorage.getItem("activeTab");
-  if (activeTab) {
-    $('.nav-tabs a[href="' + activeTab + '"]').tab("show");
-  }
 
-  // For opening the note modal
+  // For opening the adding note modal
   function showNoteModal(noteId, noteTitle, noteDescription) {
     $('#note-id').val(noteId ? noteId : '');
     $('#note-title').val(noteTitle ? noteTitle : '');
